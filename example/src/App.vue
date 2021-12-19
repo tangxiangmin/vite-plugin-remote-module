@@ -8,13 +8,13 @@ const componentList = [
   {id: 2, name: 'demo2', url: 'http://localhost:3000/demo2.vue'},
   {id: 3, name: 'demo3', url: 'http://localhost:3000/demo3.vue'},
 ]
-const compRef = shallowRef(null)
 //
 // function loadRemoteComponent(url) {
 //   return import(`@remote/http://localhost:3000/demo.vue`).then(ans => {
 //     return ans.default
 //   })
 // }
+const compRef = shallowRef(null)
 
 // async function loadDemo1() {
 //   const ans = await import('@remote/http://localhost:3000/demo.vue')

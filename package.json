@@ -1,24 +1,34 @@
 {
   "name": "vite-plugin-remote-module",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Load HTTP remote module in the Vite project",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tangxiangmin/vite-plugin-remote-module"
+  },
+  "bugs": {
+    "url": "https://github.com/tangxiangmin/vite-plugin-remote-module/issues"
+  },
+  "homepage": "https://github.com/tangxiangmin/vite-plugin-remote-module#readme",
   "files": [
-    "src"
+    "src",
+    "README.md"
   ],
   "keywords": [
     "vite-plugin",
     "remote-module"
   ],
-  "author": "",
-  "license": "ISC",
+  "author": "shymean",
+  "license": "MIT",
   "peerDependencies": {
     "vite": "^2.0.0"
   },
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "fs-extra": "^10.0.0",
     "request": "^2.88.2"
   }
