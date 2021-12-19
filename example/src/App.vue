@@ -1,19 +1,20 @@
 <script setup>
 import {shallowRef} from 'vue'
-// import Demo from '@remote/http://localhost:3000/demo.vue'
+import Demo from '@remote/http://localhost:3000/demo.vue'
+import {loadRemoteComponent} from '@vite-plugin-remote-module';
 
 const componentList = [
-  {id: 1, name: 'demo', url: 'http://localhost:3000/demo'},
-  {id: 2, name: 'demo2', url: 'http://localhost:3000/demo2'},
-  {id: 3, name: 'demo3', url: 'http://localhost:3000/demo3'},
+  {id: 1, name: 'demo', url: 'http://localhost:3000/demo.vue'},
+  {id: 2, name: 'demo2', url: 'http://localhost:3000/demo2.vue'},
+  {id: 3, name: 'demo3', url: 'http://localhost:3000/demo3.vue'},
 ]
 const compRef = shallowRef(null)
-
-function loadRemoteComponent(url) {
-  return import(`./@remote/${url}.vue`).then(ans => {
-    return ans.default
-  })
-}
+//
+// function loadRemoteComponent(url) {
+//   return import(`@remote/http://localhost:3000/demo.vue`).then(ans => {
+//     return ans.default
+//   })
+// }
 
 // async function loadDemo1() {
 //   const ans = await import('@remote/http://localhost:3000/demo.vue')
@@ -30,11 +31,12 @@ async function loadComp(item) {
 
 <template>
 
+  <Demo/>
   <div class="preview">
     <div class="preview_sd">
       组件列表 <br>
 
-<!--      <button @click="loadDemo1">demo1</button>-->
+      <!--      <button @click="loadDemo1">demo1</button>-->
       <div v-for="item in componentList" :key="item.id">
         <button @click="loadComp(item)">{{ item.name }}</button>
       </div>

@@ -6,10 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "files": [
+    "src"
+  ],
+  "keywords": [
+    "vite-plugin",
+    "remote-module"
+  ],
   "author": "",
   "license": "ISC",
+  "peerDependencies": {
+    "vite": "^2.0.0"
+  },
   "dependencies": {
-    "fs-extra": "^10.0.0"
+    "fs-extra": "^10.0.0",
+    "request": "^2.88.2"
   }
 }

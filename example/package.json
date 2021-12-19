@@ -11,8 +11,7 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.0.0",
-    "fs-extra": "^10.0.0",
-    "request": "^2.88.2",
-    "vite": "^2.7.2"
+    "vite": "^2.7.2",
+    "vite-plugin-remote-module": "workspace:*"
   }
 }
