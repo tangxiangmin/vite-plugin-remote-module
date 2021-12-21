@@ -31,10 +31,11 @@
   "peerDependencies": {
     "vite": "^2.0.0"
   },
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "fs-extra": "^10.0.0",
-    "request": "^2.88.2",
+    "request": "^2.88.2"
+  },
+  "devDependencies": {
     "rollup": "^2.61.1"
   }
 }
