@@ -1,13 +1,34 @@
 <script setup>
-import {shallowRef} from 'vue'
-import Demo from '@remote/http://localhost:3000/demo.vue'
+import {onMounted, shallowRef} from 'vue'
 import {loadRemoteComponent} from '@vite-plugin-remote-module';
 
 const componentList = [
   {id: 1, name: 'demo', url: 'http://localhost:3000/demo.vue'},
   {id: 2, name: 'demo2', url: 'http://localhost:3000/demo2.vue'},
   {id: 3, name: 'demo3', url: 'http://localhost:3000/demo3.vue'},
+  {id: 4, name: 'sub_demo4', url: 'http://localhost:3000/sub/demo4.vue'},
 ]
+
+// function loadRemoteComponent(url) {
+//   const uri = new URL(url)
+//   const {host, pathname} = uri
+//
+//   let task
+//   if (process.env.NODE_ENV === 'development') {
+//     task = import(`./@remote/${url}?suffix=.js`)
+//   } else {
+//     // todo 貌似只会加载一层
+//     const modules = import.meta.glob('../.remote_module/**/*.*');
+//     const file = `../.remote_module/${host}${pathname}`
+//     let module = modules[file]
+//     task = module && module() || Promise.reject(new Error(`${file}模块不存在`))
+//   }
+//
+//   return task.then(ans => {
+//     return ans.default
+//   })
+// }
+
 //
 // function loadRemoteComponent(url) {
 //   return import(`@remote/http://localhost:3000/demo.vue`).then(ans => {
@@ -27,11 +48,13 @@ async function loadComp(item) {
   compRef.value = await loadRemoteComponent(url)
 }
 
+onMounted(() => {
+  loadComp(componentList[0])
+})
+
 </script>
 
 <template>
-
-  <Demo/>
   <div class="preview">
     <div class="preview_sd">
       组件列表 <br>

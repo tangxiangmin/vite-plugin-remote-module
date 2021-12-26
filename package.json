@@ -1,12 +1,13 @@
 {
   "name": "vite-plugin-remote-module",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Load HTTP remote module in the Vite project",
   "main": "lib/index.js",
   "module": "esm/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rollup -c rollup.config.js"
+    "build": "rollup -c rollup.config.js",
+    "pack": "npm run build && npm pack"
   },
   "repository": {
     "type": "git",

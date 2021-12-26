@@ -4,4 +4,3 @@ dist
 dist-ssr
 *.local
 .vscode
-.remote_module

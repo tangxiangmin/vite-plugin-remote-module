@@ -4,27 +4,23 @@ const request = require('request')
 
 // todo 新增一些配置项
 export default function remoteModulePlugin() {
-  // const basePath = __dirname
   const basePath = process.cwd()
-  const localPath = `.remote_module`
+  const localPath = `node_modules/.remote_module`
   const downloadCache = {}
   const resolveIdCache = {}
 
   function getLocalFileByUrl(remoteUrl) {
-    const filename = path.basename(remoteUrl)
+    const url = new URL(remoteUrl)
+    const {host, pathname} = url
+    // const filename = path.basename(remoteUrl)
     // 排除vite中携带的query参数
-    const file = filename.split('?')[0]
-    return path.resolve(basePath, localPath, `./${file}`)
+    // const file = filename.split('?')[0]
+    return path.resolve(basePath, localPath, `./${host}${pathname}`)
   }
 
   function parseUrl(id) {
     const [url] = id.match(/https?.*?$/igm) || []
     return url
-  }
-
-  function ensureDir() {
-    const folder = path.resolve(basePath, localPath)
-    fs.ensureDirSync(folder)
   }
 
   // todo FIXME 动态加载时 某些url会重复下载
@@ -33,6 +29,8 @@ export default function remoteModulePlugin() {
     downloadCache[remoteUrl] = true
 
     const local = getLocalFileByUrl(remoteUrl)
+    fs.ensureFileSync(local)
+
     return new Promise((resolve, reject) => {
       // console.log(`start download ${remoteUrl} `)
       let stream = fs.createWriteStream(local);
@@ -56,15 +54,28 @@ export default function remoteModulePlugin() {
     return /@remote\//.test(id)
   }
 
-  ensureDir()
-
   const virtualModuleId = '@vite-plugin-remote-module'
   const resolvedVirtualModuleId = '\0' + virtualModuleId
 
   // 暴露一个loadRemoteComponent方法用于动态导入模块
+  const tempDir = '/'+localPath
   const sdk = `
 export function loadRemoteComponent(url) {
-  return import(\`./@remote/\${url}?suffix=.js\`).then(ans => {
+  const uri = new URL(url)
+  const {host, pathname} = uri
+
+  let task
+  if (process.env.NODE_ENV === 'development') {
+    task = import(\`./@remote/\${url}?suffix=.js\`)
+  } else {
+    // 以项目根目录打包全部的远程模块
+    const modules = import.meta.glob('${tempDir}/**/*.*');
+    const file = \`${tempDir}/\${host}\${pathname}\`
+    let module = modules[file]
+    task = module && module() || Promise.reject(new Error(\`\${file}模块不存在\`))
+  }
+
+  return task.then(ans => {
     return ans.default
   })
 }
@@ -81,9 +92,6 @@ export function loadRemoteComponent(url) {
 
         const url = parseUrl(id)
         if (!url) return id
-        // const local = getLocalFileByUrl(url)
-        // const resolution = await this.resolve(url, importer, {skipSelf: true, ...options});
-        // if (resolution) return local
         resolveIdCache[id] = await downloadFile(url)
 
         return resolveIdCache[id]
