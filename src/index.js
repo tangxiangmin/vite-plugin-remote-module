@@ -11,10 +11,14 @@ export default function remoteModulePlugin() {
 
   function getLocalFileByUrl(remoteUrl) {
     const url = new URL(remoteUrl)
-    const {host, pathname} = url
+    const {hostname, pathname, port} = url
     // const filename = path.basename(remoteUrl)
     // 排除vite中携带的query参数
     // const file = filename.split('?')[0]
+
+    // https://github.com/tangxiangmin/vite-plugin-remote-module/issues/1
+    // fix windows系统中无法使用英文冒号作为目录名称
+    const host = hostname + '_' + port
     return path.resolve(basePath, localPath, `./${host}${pathname}`)
   }
 
@@ -58,7 +62,7 @@ export default function remoteModulePlugin() {
   const resolvedVirtualModuleId = '\0' + virtualModuleId
 
   // 暴露一个loadRemoteComponent方法用于动态导入模块
-  const tempDir = '/'+localPath
+  const tempDir = '/' + localPath
   const sdk = `
 export function loadRemoteComponent(url) {
   const uri = new URL(url)

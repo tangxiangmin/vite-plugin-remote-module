@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-remote-module",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Load HTTP remote module in the Vite project",
   "main": "lib/index.js",
   "module": "esm/index.js",
