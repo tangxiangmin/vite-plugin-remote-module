@@ -66,7 +66,7 @@ export default function remoteModulePlugin() {
   const sdk = `
 export function loadRemoteComponent(url) {
   const uri = new URL(url)
-  const {hostname, pathname} = uri
+  const {hostname, pathname, port} = uri
   const host = hostname + '_' + port
 
   let task
